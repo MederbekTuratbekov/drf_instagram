@@ -103,7 +103,7 @@ class Chat(models.Model):
     created_date = models.DateField(auto_now_add=True)
 
     def __str__(self):
-        return f'person:{self.person} | created_date:{self.created_date}'
+        return f'person:{", ".join(str(p) for p in self.person.all())} | created_date:{self.created_date}'
 
 
 class Message(models.Model):
