@@ -1,9 +1,10 @@
 from rest_framework import generics, status, permissions
-from .models import UserProfile, Follow, Post, PostLike, Comment, CommentLike, Story, Save, SaveItem
+from .models import UserProfile, Follow, Post, PostLike, Comment, CommentLike, Story, Save, SaveItem, Chat, Message
 from .serializers import (UserProfileSerializer, UserProfileCreateSerializer,
                           FollowSerializer, PostSerializer, PostLikeSerializer,
                           CommentSerializer, CommentLikeSerializer, StorySerializer,
-                          SaveSerializer, SaveItemSerializer, UserSerializer, LoginSerializer)
+                          SaveSerializer, SaveItemSerializer, UserSerializer, LoginSerializer,
+                          ChatSerializer, ChatDetailSerializer, MessageSerializer)
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.response import Response
@@ -107,3 +108,31 @@ class SaveListAPIView(generics.ListAPIView):
 class SaveItemListAPIView(generics.ListAPIView):
     queryset = SaveItem.objects.all()
     serializer_class = SaveItemSerializer
+
+class ChatListCreateAPIView(generics.ListCreateAPIView):
+    serializer_class = ChatSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return Chat.objects.filter(person=self.request.user)
+
+
+class ChatDetailAPIView(generics.RetrieveAPIView):
+    serializer_class = ChatDetailSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return Chat.objects.filter(person=self.request.user)
+
+
+class MessageListCreateAPIView(generics.ListCreateAPIView):
+    serializer_class = MessageSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        chat_id = self.kwargs['chat_id']
+        return Message.objects.filter(chat_id=chat_id, chat__person=self.request.user)
+
+    def perform_create(self, serializer):
+        chat_id = self.kwargs['chat_id']
+        serializer.save(author=self.request.user, chat_id=chat_id)
