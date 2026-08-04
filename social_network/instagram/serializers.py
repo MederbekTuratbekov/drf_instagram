@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import UserProfile, Follow, Post, PostLike, Comment, CommentLike, Story, Save, SaveItem
+from .models import UserProfile, Follow, Post, PostLike, Comment, CommentLike, Story, Save, SaveItem, Chat, Message
 from rest_framework.validators import UniqueValidator
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import authenticate
@@ -102,3 +102,23 @@ class SaveItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = SaveItem
         fields = ['post', 'save', 'created_date']
+
+class MessageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Message
+        fields = ['id', 'author', 'text', 'image', 'video', 'created_date', 'chat']
+        read_only_fields = ['author', 'created_date']
+
+
+class ChatSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Chat
+        fields = ['id', 'person', 'created_date']
+
+
+class ChatDetailSerializer(serializers.ModelSerializer):
+    messages = MessageSerializer(many=True, read_only=True, source='message_set')
+
+    class Meta:
+        model = Chat
+        fields = ['id', 'person', 'created_date', 'messages']
