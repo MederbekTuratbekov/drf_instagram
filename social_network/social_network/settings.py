@@ -65,14 +65,8 @@ CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [("redis", 6379)], #  "hosts": [("127.0.0.1", 6379)], # "hosts": [("redis", 6379)],
+            "hosts": [("redis", 6379)],
         },
-    },
-}
-
-CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels.layers.InMemoryChannelLayer",
     },
 }
 
@@ -98,7 +92,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-LANGUAGE_CODE = 'en'
+LANGUAGE_CODE = 'ru'
 USE_L10N = True
 LANGUAGES = [
     ('en', 'English'),
