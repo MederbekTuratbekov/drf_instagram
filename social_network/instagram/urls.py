@@ -2,7 +2,8 @@ from django.urls import path
 from .views import (
     UserProfileAPIView, FollowListAPIView, PostListAPIView, PostLikeListAPIView,
     CommentListAPIView, CommentLikeListAPIView, StoryListAPIView, SaveListAPIView,
-    SaveItemListAPIView, RegisterView, CustomLoginView, LogoutView
+    SaveItemListAPIView, RegisterView, CustomLoginView, LogoutView, 
+    ChatListCreateAPIView, ChatDetailAPIView, MessageListCreateAPIView
 )
 
 
@@ -19,4 +20,7 @@ urlpatterns = [
     path('register/', RegisterView.as_view(), name='register'),
     path('login/', CustomLoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
+    path('chats/', ChatListCreateAPIView.as_view(), name='chat_list'),
+    path('chats/<int:pk>/', ChatDetailAPIView.as_view(), name='chat_detail'),
+    path('chats/<int:chat_id>/messages/', MessageListCreateAPIView.as_view(), name='message_list'),
 ]
