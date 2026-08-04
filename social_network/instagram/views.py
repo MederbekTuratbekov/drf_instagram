@@ -53,11 +53,6 @@ class UserProfileAPIView(generics.RetrieveUpdateDestroyAPIView):
         return UserProfile.objects.filter(id=self.request.user.id)
 
 
-class UserProfileCreteAPIView(generics.CreateAPIView):
-    queryset = UserProfile.objects.all()
-    serializer_class = UserProfileCreateSerializer
-
-
 class FollowListAPIView(generics.ListAPIView):
     queryset = Follow.objects.all()
     serializer_class = FollowSerializer
