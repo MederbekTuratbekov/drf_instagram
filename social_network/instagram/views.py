@@ -1,6 +1,6 @@
 from rest_framework import generics, status, permissions
 from .models import UserProfile, Follow, Post, PostLike, Comment, CommentLike, Story, Save, SaveItem, Chat, Message
-from .serializers import (UserProfileSerializer, UserProfileCreateSerializer,
+from .serializers import (UserProfileSerializer,
                           FollowSerializer, PostSerializer, PostLikeSerializer,
                           CommentSerializer, CommentLikeSerializer, StorySerializer,
                           SaveSerializer, SaveItemSerializer, UserSerializer, LoginSerializer,
